@@ -5,6 +5,8 @@ namespace BinaryFormatter.TypeConverter
 {
     internal class BoolConverter : BaseTypeConverter<bool>
     {
+        public override SerializedType Type => SerializedType.Bool;
+
         protected override byte[] ProcessSerialize(bool obj)
         {
             return BitConverter.GetBytes(obj);
@@ -12,15 +14,13 @@ namespace BinaryFormatter.TypeConverter
 
         protected override bool ProcessDeserialize(byte[] stream, ref int offset)
         {
-            bool result = BitConverter.ToBoolean(stream, offset);
+            var result = BitConverter.ToBoolean(stream, offset);
             return result;
         }
 
         protected override int GetTypeSize()
         {
-            return sizeof (bool);
+            return sizeof(bool);
         }
-
-        public override SerializedType Type => SerializedType.Bool;
     }
 }

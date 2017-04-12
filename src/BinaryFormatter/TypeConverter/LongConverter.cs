@@ -5,6 +5,8 @@ namespace BinaryFormatter.TypeConverter
 {
     internal class LongConverter : BaseTypeConverter<long>
     {
+        public override SerializedType Type => SerializedType.Long;
+
         protected override byte[] ProcessSerialize(long obj)
         {
             return BitConverter.GetBytes(obj);
@@ -17,9 +19,7 @@ namespace BinaryFormatter.TypeConverter
 
         protected override int GetTypeSize()
         {
-            return sizeof (long);
+            return sizeof(long);
         }
-
-        public override SerializedType Type => SerializedType.Long;
     }
 }

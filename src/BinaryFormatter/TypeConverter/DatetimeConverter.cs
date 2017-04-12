@@ -5,6 +5,8 @@ namespace BinaryFormatter.TypeConverter
 {
     internal class DatetimeConverter : BaseTypeConverter<DateTime>
     {
+        public override SerializedType Type => SerializedType.Datetime;
+
         protected override byte[] ProcessSerialize(DateTime obj)
         {
             return BitConverter.GetBytes(obj.Ticks);
@@ -12,15 +14,13 @@ namespace BinaryFormatter.TypeConverter
 
         protected override DateTime ProcessDeserialize(byte[] stream, ref int offset)
         {
-            long ticks = BitConverter.ToInt64(stream, offset);
+            var ticks = BitConverter.ToInt64(stream, offset);
             return DateTime.FromBinary(ticks);
         }
 
         protected override int GetTypeSize()
         {
-            return sizeof (long);
+            return sizeof(long);
         }
-
-        public override SerializedType Type => SerializedType.Datetime;
     }
 }

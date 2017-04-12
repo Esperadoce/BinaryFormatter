@@ -1,24 +1,24 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using BinaryFormatter.Types;
 
 namespace BinaryFormatter.TypeConverter
 {
     internal class DecimalConverter : BaseTypeConverter<decimal>
     {
-        private int Size { get; set; } = 0;
+        private int Size { get; set; }
+
+        public override SerializedType Type => SerializedType.Decimal;
 
         protected override byte[] ProcessSerialize(decimal obj)
         {
-            string sdecimal = obj.ToString("F");
+            var sdecimal = obj.ToString("F");
             Size = sdecimal.Length;
             return new StringConverter().Serialize(sdecimal);
         }
 
         protected override decimal ProcessDeserialize(byte[] stream, ref int offset)
         {
-            string sdecimal = new StringConverter().Deserialize(stream.Skip(offset).ToArray());
+            var sdecimal = new StringConverter().Deserialize(stream.Skip(offset).ToArray());
             return decimal.Parse(sdecimal);
         }
 
@@ -26,7 +26,5 @@ namespace BinaryFormatter.TypeConverter
         {
             return Size;
         }
-
-        public override SerializedType Type => SerializedType.Decimal;
     }
 }

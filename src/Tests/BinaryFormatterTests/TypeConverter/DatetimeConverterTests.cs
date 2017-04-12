@@ -9,12 +9,12 @@ namespace BinaryFormatterTests.TypeConverter
         [Fact]
         public void CanSerializeAndDeserialize()
         {
-            DateTime value = DateTime.MaxValue;
-            DatetimeConverter converter = new DatetimeConverter();
-            byte[] bytes = converter.Serialize(value);
+            var value = DateTime.MaxValue;
+            var converter = new DatetimeConverter();
+            var bytes = converter.Serialize(value);
 
-            DateTime valueFromBytes = converter.Deserialize(bytes);
-            
+            var valueFromBytes = converter.Deserialize(bytes);
+
             Assert.Equal(valueFromBytes, value);
         }
     }

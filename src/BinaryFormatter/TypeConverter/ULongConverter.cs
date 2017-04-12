@@ -5,6 +5,8 @@ namespace BinaryFormatter.TypeConverter
 {
     internal class ULongConverter : BaseTypeConverter<ulong>
     {
+        public override SerializedType Type => SerializedType.Ulong;
+
         protected override byte[] ProcessSerialize(ulong obj)
         {
             return BitConverter.GetBytes(obj);
@@ -17,9 +19,7 @@ namespace BinaryFormatter.TypeConverter
 
         protected override int GetTypeSize()
         {
-            return sizeof (ulong);
+            return sizeof(ulong);
         }
-
-        public override SerializedType Type => SerializedType.Ulong;
     }
 }

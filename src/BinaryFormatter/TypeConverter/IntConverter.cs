@@ -5,6 +5,8 @@ namespace BinaryFormatter.TypeConverter
 {
     internal class IntConverter : BaseTypeConverter<int>
     {
+        public override SerializedType Type => SerializedType.Int;
+
         protected override byte[] ProcessSerialize(int obj)
         {
             return BitConverter.GetBytes(obj);
@@ -17,9 +19,7 @@ namespace BinaryFormatter.TypeConverter
 
         protected override int GetTypeSize()
         {
-            return sizeof (int);
+            return sizeof(int);
         }
-
-        public override SerializedType Type => SerializedType.Int;
     }
 }

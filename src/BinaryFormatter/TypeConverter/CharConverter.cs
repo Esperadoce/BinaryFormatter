@@ -5,6 +5,8 @@ namespace BinaryFormatter.TypeConverter
 {
     internal class CharConverter : BaseTypeConverter<char>
     {
+        public override SerializedType Type => SerializedType.Char;
+
         protected override byte[] ProcessSerialize(char obj)
         {
             return BitConverter.GetBytes(obj);
@@ -12,7 +14,7 @@ namespace BinaryFormatter.TypeConverter
 
         protected override char ProcessDeserialize(byte[] stream, ref int offset)
         {
-            char result = BitConverter.ToChar(stream, offset);
+            var result = BitConverter.ToChar(stream, offset);
             return result;
         }
 
@@ -20,7 +22,5 @@ namespace BinaryFormatter.TypeConverter
         {
             return sizeof(char);
         }
-
-        public override SerializedType Type => SerializedType.Char;
     }
 }

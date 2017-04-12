@@ -7,12 +7,14 @@ namespace BinaryFormatter.TypeConverter
     {
         private int Size { get; set; }
 
+        public override SerializedType Type => SerializedType.ByteArray;
+
         protected override byte[] ProcessSerialize(byte[] obj)
         {
             Size = obj.Length;
-            byte[] lengthBytes = BitConverter.GetBytes(Size);
+            var lengthBytes = BitConverter.GetBytes(Size);
 
-            byte[] serializedStringWithSize = new byte[sizeof(int) + Size];
+            var serializedStringWithSize = new byte[sizeof(int) + Size];
             Array.Copy(lengthBytes, 0, serializedStringWithSize, 0, lengthBytes.Length);
             Array.Copy(obj, 0, serializedStringWithSize, lengthBytes.Length, obj.Length);
 
@@ -21,10 +23,10 @@ namespace BinaryFormatter.TypeConverter
 
         protected override byte[] ProcessDeserialize(byte[] stream, ref int offset)
         {
-            int size = BitConverter.ToInt32(stream, offset);
+            var size = BitConverter.ToInt32(stream, offset);
             offset += sizeof(int);
 
-            byte[] deserialized = new byte[size];
+            var deserialized = new byte[size];
             Array.Copy(stream, offset, deserialized, 0, size);
             return deserialized;
         }
@@ -33,7 +35,5 @@ namespace BinaryFormatter.TypeConverter
         {
             return Size;
         }
-
-        public override SerializedType Type => SerializedType.ByteArray;
     }
 }

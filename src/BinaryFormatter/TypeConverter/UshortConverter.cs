@@ -5,6 +5,8 @@ namespace BinaryFormatter.TypeConverter
 {
     internal class UShortConverter : BaseTypeConverter<ushort>
     {
+        public override SerializedType Type => SerializedType.UShort;
+
         protected override byte[] ProcessSerialize(ushort obj)
         {
             return BitConverter.GetBytes(obj);
@@ -17,9 +19,7 @@ namespace BinaryFormatter.TypeConverter
 
         protected override int GetTypeSize()
         {
-            return sizeof (ushort);
+            return sizeof(ushort);
         }
-
-        public override SerializedType Type => SerializedType.UShort;
     }
 }

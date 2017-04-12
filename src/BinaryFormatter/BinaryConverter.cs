@@ -31,26 +31,24 @@ namespace BinaryFormatter
 
         public byte[] Serialize(object obj)
         {
-            Type t = obj.GetType();
+            var t = obj.GetType();
             BaseTypeConverter converter;
             if (_converters.TryGetValue(t, out converter))
-            {
                 return converter.Serialize(obj);
-            }
 
             return SerializeProperties(obj);
         }
 
         private byte[] SerializeProperties(object obj)
         {
-            Type t = obj.GetType();
+            var t = obj.GetType();
             ICollection<PropertyInfo> properties = t.GetTypeInfo().DeclaredProperties.ToArray();
 
-            List<byte> serializedObject = new List<byte>();
-            foreach (PropertyInfo property in properties)
+            var serializedObject = new List<byte>();
+            foreach (var property in properties)
             {
-                object prop = property.GetValue(obj);
-                byte[] elementBytes = GetBytesFromProperty(prop);
+                var prop = property.GetValue(obj);
+                var elementBytes = GetBytesFromProperty(prop);
                 serializedObject.AddRange(elementBytes);
             }
 
@@ -61,10 +59,10 @@ namespace BinaryFormatter
         {
             if (element == null) return new byte[0];
 
-            Type t = element.GetType();
+            var t = element.GetType();
             if (_converters.ContainsKey(t))
             {
-                BaseTypeConverter converter = _converters[t];
+                var converter = _converters[t];
                 return converter.Serialize(element);
             }
 
@@ -77,13 +75,11 @@ namespace BinaryFormatter
         {
             BaseTypeConverter converter;
             if (_converters.TryGetValue(typeof(T), out converter))
-            {
-                return (T)converter.DeserializeToObject(stream);
-            }
+                return (T) converter.DeserializeToObject(stream);
 
-            T instance = (T)Activator.CreateInstance(typeof(T));
+            var instance = (T) Activator.CreateInstance(typeof(T));
 
-            int offset = 0;
+            var offset = 0;
             DeserializeObject(stream, instance, ref offset);
 
             return instance;
@@ -91,7 +87,7 @@ namespace BinaryFormatter
 
         private void DeserializeObject<T>(byte[] stream, T instance, ref int offset)
         {
-            foreach (PropertyInfo property in instance.GetType().GetTypeInfo().DeclaredProperties)
+            foreach (var property in instance.GetType().GetTypeInfo().DeclaredProperties)
             {
                 DeserializeProperty(property, instance, stream, ref offset);
                 if (offset == stream.Length)
@@ -103,17 +99,17 @@ namespace BinaryFormatter
         {
             if (!property.PropertyType.AssemblyQualifiedName.Contains("mscorlib"))
             {
-                object propertyValue = Activator.CreateInstance(property.PropertyType);
+                var propertyValue = Activator.CreateInstance(property.PropertyType);
                 property.SetValue(instance, propertyValue);
                 DeserializeObject(stream, propertyValue, ref offset);
                 return;
             }
 
-            SerializedType type = (SerializedType)BitConverter.ToInt16(stream, offset);
+            var type = (SerializedType) BitConverter.ToInt16(stream, offset);
             offset += sizeof(short);
 
-            BaseTypeConverter converter = _converters.First(x => x.Value.Type == type).Value;
-            object data = converter.DeserializeToObject(stream, ref offset);
+            var converter = _converters.First(x => x.Value.Type == type).Value;
+            var data = converter.DeserializeToObject(stream, ref offset);
             property.SetValue(instance, data);
         }
     }

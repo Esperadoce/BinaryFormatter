@@ -1,5 +1,4 @@
-﻿using System;
-using BinaryFormatter.TypeConverter;
+﻿using BinaryFormatter.TypeConverter;
 using Xunit;
 
 namespace BinaryFormatterTests.TypeConverter
@@ -9,12 +8,12 @@ namespace BinaryFormatterTests.TypeConverter
         [Fact]
         public void CanSerializeAndDeserialize()
         {
-            byte value = byte.MaxValue;
-            ByteConverter converter = new ByteConverter();
-            byte[] bytes = converter.Serialize(value);
+            var value = byte.MaxValue;
+            var converter = new ByteConverter();
+            var bytes = converter.Serialize(value);
 
-            byte valueFromBytes = converter.Deserialize(bytes);
-            
+            var valueFromBytes = converter.Deserialize(bytes);
+
             Assert.Equal(valueFromBytes, value);
         }
     }

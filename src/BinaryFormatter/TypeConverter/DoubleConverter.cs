@@ -5,6 +5,8 @@ namespace BinaryFormatter.TypeConverter
 {
     internal class DoubleConverter : BaseTypeConverter<double>
     {
+        public override SerializedType Type => SerializedType.Double;
+
         protected override byte[] ProcessSerialize(double obj)
         {
             return BitConverter.GetBytes(obj);
@@ -17,9 +19,7 @@ namespace BinaryFormatter.TypeConverter
 
         protected override int GetTypeSize()
         {
-            return sizeof (double);
+            return sizeof(double);
         }
-
-        public override SerializedType Type => SerializedType.Double;
     }
 }

@@ -9,12 +9,12 @@ namespace BinaryFormatterTests.TypeConverter
         [Fact]
         public void CanSerializeAndDeserialize()
         {
-            byte[] value = Encoding.UTF8.GetBytes("lorem ipsum");
-            ByteArrayConverter converter = new ByteArrayConverter();
-            byte[] bytes = converter.Serialize(value);
+            var value = Encoding.UTF8.GetBytes("lorem ipsum");
+            var converter = new ByteArrayConverter();
+            var bytes = converter.Serialize(value);
 
-            byte[] valueFromBytes = converter.Deserialize(bytes);
-            
+            var valueFromBytes = converter.Deserialize(bytes);
+
             Assert.Equal(valueFromBytes, value);
         }
     }

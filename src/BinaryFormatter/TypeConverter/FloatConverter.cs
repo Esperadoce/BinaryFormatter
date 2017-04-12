@@ -5,6 +5,8 @@ namespace BinaryFormatter.TypeConverter
 {
     internal class FloatConverter : BaseTypeConverter<float>
     {
+        public override SerializedType Type => SerializedType.Float;
+
         protected override byte[] ProcessSerialize(float obj)
         {
             return BitConverter.GetBytes(obj);
@@ -17,9 +19,7 @@ namespace BinaryFormatter.TypeConverter
 
         protected override int GetTypeSize()
         {
-            return sizeof (float);
+            return sizeof(float);
         }
-
-        public override SerializedType Type => SerializedType.Float;
     }
 }
